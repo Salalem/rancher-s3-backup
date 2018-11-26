@@ -1,0 +1,19 @@
+version: "3"
+services:
+  rancher-s3-backup:
+    build: .
+    volumes:
+     - /Users/firas/rancher-data:/root/rancher-data
+    environment:
+     - aws_key=$S3_RANCHER_BACKUP_ACCESS_TOKEN
+     - aws_secret=$S3_RANCHER_BACKUP_SECRET
+     - DEST_S3=$S3_RANCHER_BACKUP_BUCKET_NAME
+
+  rancher:
+    image: rancher/rancher:v2.1.1
+    restart: unless-stopped
+    volumes:
+      - /Users/firas/rancher-data:/var/lib/rancher
+    ports:
+      - "80:80"
+      - "443:443"
